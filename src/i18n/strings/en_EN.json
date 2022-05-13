@@ -3422,6 +3422,7 @@
     "Close dialog or context menu": "Close dialog or context menu",
     "Activate selected button": "Activate selected button",
     "New line": "New line",
+    "React with \"%(reaction)s\"": "React with \"%(reaction)s\"",
     "Force complete": "Force complete",
     "Search (must be enabled)": "Search (must be enabled)"
 }

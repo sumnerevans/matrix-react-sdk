@@ -26,6 +26,7 @@ import Search from "./Search";
 import Preview from "./Preview";
 import QuickReactions from "./QuickReactions";
 import Category, { ICategory, CategoryKey } from "./Category";
+import AccessibleButton from '../elements/AccessibleButton';
 
 export const CATEGORY_HEADER_HEIGHT = 20;
 export const EMOJI_HEIGHT = 35;
@@ -34,6 +35,7 @@ export const EMOJIS_PER_ROW = 8;
 const ZERO_WIDTH_JOINER = "\u200D";
 
 interface IProps {
+    allowUnlisted?: boolean;
     selectedEmojis?: Set<string>;
     showQuickReactions?: boolean;
     onChoose(unicode: string): boolean;
@@ -229,6 +231,10 @@ class EmojiPicker extends React.Component<IProps, IState> {
         }
     };
 
+    private reactWith = (reaction: string): void => {
+        this.props.onChoose(reaction);
+    };
+
     private static categoryHeightForEmojiCount(count: number) {
         if (count === 0) {
             return 0;
@@ -269,6 +275,15 @@ class EmojiPicker extends React.Component<IProps, IState> {
                         return categoryElement;
                     }) }
                 </AutoHideScrollbar>
+                {
+                    (this.props.allowUnlisted && this.state.filter) &&
+                        <AccessibleButton
+                            kind="link"
+                            onClick={() => this.reactWith(this.state.filter)}
+                        >
+                            { _t('React with "%(reaction)s"', { reaction: this.state.filter }) }
+                        </AccessibleButton>
+                }
                 { this.state.previewEmoji || !this.props.showQuickReactions
                     ? <Preview emoji={this.state.previewEmoji} />
                     : <QuickReactions onClick={this.onClickEmoji} selectedEmojis={this.props.selectedEmojis} /> }
